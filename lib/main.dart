@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:user_preference_app/src/page/home_page.dart';
+import 'package:user_preference_app/src/page/settings_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,17 +11,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Pon_aqui_tu_titulo'),
-        ),
-        body: Center(
-          child: Container(
-              child: Text('Pon_aqui_tu_titulo')
-          ),
-        ),
-      ),
+      title: 'Preference',
+      initialRoute: HomePage.routeName,
+      routes: {
+        HomePage.routeName : (BuildContext context) => HomePage(),
+        SettingsPage.routeName : (BuildContext context) => SettingsPage(),
+      },
     );
   }
 }
