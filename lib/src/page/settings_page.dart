@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_preference_app/src/widgets/menu_widget.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -9,19 +10,23 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _secondColor;
-  int _gender;
-  String _userName;
+  bool _secondColor = false;
+  int _gender = 1;
+  String _userName = 'Pedro';
 
   TextEditingController _textEditingController;
-
+//WidgetsFlutterBinding.ensureInitialized();
   @override
   void initState() {
     super.initState();
-    _secondColor = false;
-    _gender = 1;
-    _userName = 'Pedro';
+    _loadPreference();
     _textEditingController = TextEditingController(text: _userName);
+  }
+
+  _loadPreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _gender = prefs.getInt('gender');
+    setState(() {});
   }
 
   @override
@@ -51,16 +56,12 @@ class _SettingsPageState extends State<SettingsPage> {
               title: Text('Masculino'),
               value: 1,
               groupValue: _gender,
-              onChanged: (value) {
-                _changeRadioButton(value);
-              }),
+              onChanged: _setSelectedRadio),
           RadioListTile(
               title: Text('Femenino'),
               value: 2,
               groupValue: _gender,
-              onChanged: (value) {
-                _changeRadioButton(value);
-              }),
+              onChanged: _setSelectedRadio),
           Divider(),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 32),
@@ -87,9 +88,10 @@ class _SettingsPageState extends State<SettingsPage> {
     });
   }
 
-  void _changeRadioButton(int value) {
-    setState(() {
-      _gender = value;
-    });
+  _setSelectedRadio(int value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('gender', value);
+    _gender = value;
+    setState(() {});
   }
 }
