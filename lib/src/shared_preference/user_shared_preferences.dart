@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserSharedPreferences {
@@ -15,12 +16,28 @@ class UserSharedPreferences {
     this._preferences = await SharedPreferences.getInstance();
   }
 
-  get getGender {
+  get gender {
     return _preferences.getInt('gender') ?? 1;
   }
 
-  set setGender (int value) {
+  set gender (int value) {
     _preferences.setInt('gender', value ?? 1);
+  }
+
+  get secondColor {
+    return _preferences.getBool('secondColor') ?? false;
+  }
+
+  set secondColor (bool value) {
+    _preferences.setBool('secondColor', value ?? false);
+  }
+
+  get userName {
+    return _preferences.getString('userName') ?? 'Pedro';
+  }
+
+  set userName (String value) {
+    _preferences.setString('userName', value ?? '');
   }
 
 }

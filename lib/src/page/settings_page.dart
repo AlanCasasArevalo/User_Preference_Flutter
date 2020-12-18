@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:user_preference_app/src/shared_preference/user_shared_preferences.dart';
 import 'package:user_preference_app/src/widgets/menu_widget.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -11,22 +11,21 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool _secondColor = false;
-  int _gender = 1;
+  int _gender;
   String _userName = 'Pedro';
 
+  final preference = UserSharedPreferences();
+
   TextEditingController _textEditingController;
+
 //WidgetsFlutterBinding.ensureInitialized();
   @override
   void initState() {
     super.initState();
-    _loadPreference();
-    _textEditingController = TextEditingController(text: _userName);
-  }
-
-  _loadPreference() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _gender = prefs.getInt('gender');
-    setState(() {});
+    _gender = preference.gender;
+    _secondColor = preference.secondColor;
+    _userName = preference.userName;
+    _textEditingController = TextEditingController(text: preference.userName);
   }
 
   @override
@@ -34,6 +33,8 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Ajustes'),
+        backgroundColor:
+            preference.secondColor ? Colors.redAccent : Colors.grey,
       ),
       drawer: MenuWidget(),
       body: ListView(
@@ -71,12 +72,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   labelText: _userName,
                   helperText: 'Nombre de la persona usando el dispositivo'),
               onChanged: (inputText) {
-                setState(() {
-                  _userName = inputText;
-                });
+                preference.userName = inputText;
+                _userName = inputText;
+                setState(() {});
               },
             ),
-          )
+          ),
         ],
       ),
     );
@@ -84,13 +85,13 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _changeSwitch(bool isChange) {
     setState(() {
+      preference.secondColor = isChange;
       _secondColor = isChange;
     });
   }
 
-  _setSelectedRadio(int value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('gender', value);
+  _setSelectedRadio(int value) {
+    preference.gender = value;
     _gender = value;
     setState(() {});
   }
