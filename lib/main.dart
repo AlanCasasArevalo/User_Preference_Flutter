@@ -13,12 +13,15 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+
+  final preference = UserSharedPreferences();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Preference',
-      initialRoute: HomePage.routeName,
+      initialRoute: preference.lastPage,
       routes: {
         HomePage.routeName : (BuildContext context) => HomePage(),
         SettingsPage.routeName : (BuildContext context) => SettingsPage(),

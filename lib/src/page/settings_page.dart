@@ -22,6 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
+    preference.lastPage = SettingsPage.routeName;
     _gender = preference.gender;
     _secondColor = preference.secondColor;
     _userName = preference.userName;

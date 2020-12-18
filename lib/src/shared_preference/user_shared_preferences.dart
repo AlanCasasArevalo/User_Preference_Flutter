@@ -40,4 +40,12 @@ class UserSharedPreferences {
     _preferences.setString('userName', value ?? '');
   }
 
+  get lastPage {
+    return _preferences.getString('lastPage') ?? 'home_page';
+  }
+
+  set lastPage (String value) {
+    _preferences.setString('lastPage', value ?? 'home_page');
+  }
+
 }

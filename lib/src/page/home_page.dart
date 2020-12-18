@@ -8,10 +8,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    preference.lastPage = HomePage.routeName;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Preferencias de usuario'),
-        backgroundColor: preference.secondColor ? Colors.redAccent : Colors.grey,
+        backgroundColor:
+            preference.secondColor ? Colors.redAccent : Colors.grey,
       ),
       drawer: MenuWidget(),
       body: Column(
